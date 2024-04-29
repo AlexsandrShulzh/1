@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>Конвертер валют</title>
+</head>
+<body>
+    <nav class="navbar navbar-light" style="background-color: #A557FF;">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/" style="display: block; width: 100%;">Конвертация валют</a>
+      </div>
+    </nav>
+    <div class="container">
+        <form action="" method="post" style="margin: 20px auto">
+            <div class="input-group mb-3">
+              {{ currency_form.data_in(class="form-control") }}
+              {{ currency_form.select(class="form-select") }}
+              {{ currency_form.select2(class="form-select") }}
+              {{ currency_form.submit(class="btn btn-outline-primary") }}
+            </div>
+        </form>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ h_title }}</h5>
+            <h1>{{ result }}</h1>
+            <p class="card-text">{{ result_ones }}</p>
+          </div>
+          <img src="{{ url_for('static', filename='image/dolar.jpeg') }}" class="card-img-bottom" alt="...">
+        </div>
+        <form action="/add_comment" method="post" style="margin: 20px auto;">
+            {{ commenting_form.csrf_token }}
+            <h5>{{ commenting_form.comment.label() }}</h5>
+            {{ commenting_form.comment(class="form-control", style='margin-bottom: 30px') }}
+            <h5>{{ commenting_form.username.label() }}</h5>
+            {{ commenting_form.username(class="form-control", style='margin-bottom: 30px') }}
+            <h5>{{ commenting_form.email.label() }}</h5>
+            {{ commenting_form.email(class="form-control", style='margin-bottom: 30px') }}
+            {{ commenting_form.submit(class="btn btn-outline-primary", style='margin-bottom: 30px; margin-top: 30px') }}
+        </form>
+        <h4>{{nik}}</h4>
+        <h4>Комментарии</h4>
+        {% for i in comments %}
+            <div class="card card-white post">
+                <div class="post-heading">
+                    <div class="float-left meta">
+                        <div class="title h5">
+                            <b>{{ i.username }}</b>
+                        </div>
+                        <h6 class="text-muted time">{{ i.created_date.strftime("%A, %d. %B %Y %I:%M%p") }}</h6>
+                    </div>
+                </div>
+                <div class="post-description">
+                    <p>{{ i.text }}</p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+</body>
+</html>
